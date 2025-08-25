@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "579210938859",
+    "project_id": "afritravel-61561",
+    "storage_bucket": "afritravel-61561.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:579210938859:android:c4a9573db9cf758d7131ae",
+        "android_client_info": {
+          "package_name": "com.example.rt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnE7PrxzA0jXDRENG5kjP-TKkqruBJvB8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
