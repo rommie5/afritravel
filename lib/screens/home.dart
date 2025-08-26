@@ -7,7 +7,6 @@ import '../models/event.dart';
 class HomeScreen extends StatelessWidget {
    HomeScreen({super.key});
 
-  // ===== Sample data (replace with API data later) =====
   final List<Place> places =  [
     Place(
         id: 1,
@@ -43,19 +42,19 @@ class HomeScreen extends StatelessWidget {
       name: 'Kidepo Valley',
       location: 'Uganda',
       rating: 4.8,
-      imageUrl: 'assets/images/bwindi.jpeg'), // 🔥 add assets/images/
+      imageUrl: 'assets/images/kidepo.jpeg'), 
   Tour(
       id: 2,
       name: 'Lake Bunyonyi',
       location: 'Uganda',
       rating: 4.6,
-      imageUrl: 'assets/images/gorrillas.jpg'), // 🔥 corrected
+      imageUrl: 'assets/images/Lake-Bunyonyi.jpg'), 
   Tour(
       id: 3,
       name: 'Rwenzori Mountains',
       location: 'Uganda',
       rating: 4.7,
-      imageUrl: 'assets/images/ssesse.jpg'), // 🔥 corrected
+      imageUrl: 'assets/images/rwenzori.jpeg'), 
 ];
 
 
@@ -65,13 +64,13 @@ class HomeScreen extends StatelessWidget {
       name: 'Imbalu Festival',
       location: 'Mbale',
       date: 'Aug 25',
-      imageUrl: 'assets/images/ssesse.jpg'), // 🔥 corrected
+      imageUrl: 'assets/images/imbalu.jpeg'), 
   Event(
       id: 2,
       name: 'New Year Safari',
       location: 'Kampala',
       date: 'Dec 31',
-      imageUrl: 'assets/images/murcisson.jpeg'), // 🔥 corrected
+      imageUrl: 'assets/images/new.jpeg'), 
 ];
 
 
@@ -165,7 +164,7 @@ class HomeScreen extends StatelessWidget {
 
               const SizedBox(height: 20),
 
-              // ===== CATEGORIES =====
+// Categories
               sectionTitle('Categories'),
               SizedBox(
                 height: 100,
@@ -182,7 +181,7 @@ class HomeScreen extends StatelessWidget {
 
               const SizedBox(height: 20),
 
-              // ===== TRENDING TOURS =====
+// trending tours
               sectionTitle('Trending Tours'),
               Column(
                 children: trendingTours
@@ -193,7 +192,7 @@ class HomeScreen extends StatelessWidget {
 
               const SizedBox(height: 20),
 
-              // ===== UPCOMING EVENTS =====
+              //upcoming events
               sectionTitle('Upcoming Festivals & Events'),
               SizedBox(
                 height: 120,
@@ -217,7 +216,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ===== WIDGETS =====
+  // widget helpers
 
   Widget sectionTitle(String title) {
     return Padding(
