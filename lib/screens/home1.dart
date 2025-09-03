@@ -1,5 +1,6 @@
 //help me use the bottom navigation bar
 import 'package:afri_travel/screens/explore.dart';
+import 'package:afri_travel/screens/uploads.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -14,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 final List<Map<String, dynamic>> _featuredDestinations = [
   {
-    'name': 'Bwindi Impenetrable Forest',
+    'name': 'Bwindi Impenetrable ',
     'imageUrl': 'assets/images/Bwindi.jpg',
     'location': 'Southwestern Uganda',
     'rating': 4.9,
@@ -242,11 +243,12 @@ final List<Map<String, dynamic>> _featuredDestinations = [
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
+            
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Gorilla Trekking\nAdventure',
+                  'Gorilla Trekking Adventure',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -264,20 +266,32 @@ final List<Map<String, dynamic>> _featuredDestinations = [
                   ),
                 ),
                 SizedBox(height: 14),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    'Book Now',
-                    style: TextStyle(
-                      color: Color(0xFF0C3C2F),
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
+             InkWell(
+  // The onTap callback is where you define the navigation logic
+  onTap: () {
+    // Use Navigator to push the new page onto the stack
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => UploadDestinationPage()), // Replace YourNewPage with the actual page widget
+    );
+  },
+  // It's good practice to clip the ripple effect to the container's shape
+  borderRadius: BorderRadius.circular(20), 
+  child: Container(
+    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(20),
+    ),
+    child: Text(
+      'Book Now',
+      style: TextStyle(
+        color: Color(0xFF0C3C2F),
+        fontWeight: FontWeight.w600,
+      ),
+    ),
+  ),
+)
               ],
             ),
           ),
@@ -386,14 +400,13 @@ final List<Map<String, dynamic>> _featuredDestinations = [
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // ✅ Load actual image instead of placeholder
                   ClipRRect(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(16),
                       topRight: Radius.circular(16),
                     ),
                     child: Image.asset(
-                      destination['imageUrl'], // always use imageUrl
+                      destination['imageUrl'], 
                       height: 120,
                       width: double.infinity,
                       fit: BoxFit.cover,

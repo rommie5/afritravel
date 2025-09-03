@@ -1,74 +1,110 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../models/place.dart';
-import '/models/category.dart';
-import '../models/event.dart';
-import '../models/tour.dart';
-import './auth_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
-  static Future<List<dynamic>> getPlaces() async {
-    final token = await AuthService.getToken();
+  static const String baseUrl = 'http://localhost:5000/api/v1'; // Change to your server IP
+
+  // Get token from shared preferences
+  static Future<String?> _getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
+  }
+
+  // Generic GET request
+  static Future<dynamic> get(String endpoint) async {
+    final token = await _getToken();
     final response = await http.get(
-      Uri.parse('$API_BASE_URL/places'),
+      Uri.parse('$baseUrl/$endpoint'),
       headers: {
+        'Authorization': token != null ? 'Bearer $token' : '',
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
       },
     );
 
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      throw Exception('Failed to load places');
+    return _handleResponse(response);
+  }
+
+  // Generic POST request
+  static Future<dynamic> post(String endpoint, dynamic data) async {
+    final token = await _getToken();
+    final response = await http.post(
+      Uri.parse('$baseUrl/$endpoint'),
+      headers: {
+        'Authorization': token != null ? 'Bearer $token' : '',
+        'Content-Type': 'application/json',
+      },
+      body: json.encode(data),
+    );
+
+    return _handleResponse(response);
+  }
+
+  // Handle response
+  static dynamic _handleResponse(http.Response response) {
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+        return json.decode(response.body);
+      case 400:
+        throw Exception('Bad request');
+      case 401:
+        throw Exception('Unauthorized');
+      case 404:
+        throw Exception('Not found');
+      case 500:
+        throw Exception('Server error');
+      default:
+        throw Exception('Something went wrong');
     }
   }
-}
 
-class API_BASE_URL {
-}
+  // Auth methods
+  static Future<dynamic> login(String email, String password) async {
+    final response = await post('auth/login', {
+      'email': email,
+      'password': password,
+    });
 
-
-
-  // Generic GET request with error handling
-   Future<dynamic> _getRequest(String endpoint) async {
-    final url = Uri.parse('$API_BASE_URL/$endpoint');
-    try {
-      final response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        return data;
-      } else {
-        // Try to parse server error message
-        final error = jsonDecode(response.body)['message'] ?? 'Unknown error';
-        throw Exception('Error $endpoint: $error');
-      }
-    } catch (e) {
-      throw Exception('Failed to fetch $endpoint: $e');
+    // Save token
+    if (response['success'] && response['token']) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('token', response['token']);
     }
+
+    return response;
   }
 
-  // ===== PLACES =====
-   Future<List<Place>> getPlaces() async {
-    final data = await _getRequest('places');
-    return (data as List).map((item) => Place.fromJson(item)).toList();
+  static Future<dynamic> register(String name, String email, String password) async {
+    final response = await post('auth/register', {
+      'name': name,
+      'email': email,
+      'password': password,
+    });
+
+    if (response['success'] && response['token']) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('token', response['token']);
+    }
+
+    return response;
   }
 
-  // ===== CATEGORIES =====
-   Future<List<Category>> getCategories() async {
-    final data = await _getRequest('categories');
-    return (data as List).map((item) => Category.fromJson(item)).toList();
+  // Destination methods
+  static Future<dynamic> getDestinations() async {
+    return await get('destinations');
   }
 
-  // ===== TRENDING TOURS =====
-   Future<List<Tour>> getTrendingTours() async {
-    final data = await _getRequest('trending-tours');
-    return (data as List).map((item) => Tour.fromJson(item)).toList();
+  static Future<dynamic> getDestination(String id) async {
+    return await get('destinations/$id');
   }
 
-  // ===== UPCOMING EVENTS =====
-   Future<List<Event>> getEvents() async {
-    final data = await _getRequest('events');
-    return (data as List).map((item) => Event.fromJson(item)).toList();
+  // User methods
+  static Future<dynamic> getUserProfile() async {
+    return await get('users/me');
   }
+
+  static Future<dynamic> updateUserProfile(Map<String, dynamic> data) async {
+    return await post('users/update-profile', data);
+  }
+}
