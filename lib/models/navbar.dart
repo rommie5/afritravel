@@ -218,7 +218,7 @@ class CurvedBottomNavigationBar extends StatelessWidget {
     return BottomAppBar(
       shape: CircularNotchedRectangle(),
       notchMargin: 8.0,
-      child: Container(
+      child: SizedBox(
         height: 60,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

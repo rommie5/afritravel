@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class UploadDestinationPage extends StatefulWidget {
-  const UploadDestinationPage({Key? key}) : super(key: key);
+  const UploadDestinationPage({super.key});
 
   @override
   _UploadDestinationPageState createState() => _UploadDestinationPageState();

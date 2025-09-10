@@ -428,7 +428,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               _isDarkMode = value;
                             });
                           },
-                          activeColor: Color(0xFF0C3C2F),
+                          activeThumbColor: Color(0xFF0C3C2F),
                         )
                       : null,
                   onTap: () => _handleSettingTap(item['label']),

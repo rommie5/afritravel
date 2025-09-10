@@ -150,8 +150,8 @@ class _ItineraryScreenState extends State<ItineraryScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: _createNewItinerary,
         backgroundColor: Color(0xFF0C3C2F),
-        child: Icon(Iconsax.add, color: Colors.white, size: 28),
         shape: RoundedRectangleBorder(),
+        child: Icon(Iconsax.add, color: Colors.white, size: 28),
       ),
     );
   }
